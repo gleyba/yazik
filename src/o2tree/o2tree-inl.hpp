@@ -8,28 +8,27 @@ namespace yazik {
 namespace o2tree {
 
     template <typename T, size_t M>
-    atomics::rwx_locker node_t::readLock() {
+    atomics::rwx_locker node<T,M>::readLock() {
         return {_lock,atomics::rwx_lock_type::read};
     }
 
     template <typename T, size_t M>
-    atomics::rwx_locker node_t::writeLock() {
+    atomics::rwx_locker node<T,M>::writeLock() {
         return {_lock,atomics::rwx_lock_type::write};
     }
 
     template <typename T, size_t M>
-    atomics::rwx_locker node_t::exclusiveLock() {
+    atomics::rwx_locker node<T,M>::exclusiveLock() {
         return {_lock,atomics::rwx_lock_type::exclusive};
     }
 
     template <typename T, size_t M>
-    t::t(uint64_t m)
-    : _m{m}
+    t<T,M>::t()
     {}
 
 
     template <typename T, size_t M>
-    bool t::put(uint64_t key,T&& val) {
+    bool t<T,M>::put(uint64_t key,T&& val) {
         node_t* node = &_root;
         atomics::rwx_locker nodeLocker = node->readLock();
         node_t* parent = nullptr;
@@ -37,7 +36,7 @@ namespace o2tree {
 
         while(!node->isLeaf()) {
             if (node->isGreater(key)) {
-                nodeLocker =
+                //nodeLocker =
             } else {
 
             }
@@ -48,7 +47,7 @@ namespace o2tree {
     }
 
     template <typename T, size_t M>
-    bool t::put(uint64_t key,const T& val) {
+    bool t<T,M>::put(uint64_t key,const T& val) {
         return put(key,val);
     }
 

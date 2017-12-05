@@ -10,21 +10,21 @@
 namespace yazik {
 namespace o2tree {
 
-
     enum class node_type_t : int {
+        none,
         red,
         black,
         leaf
     };
 
     template <typename T, size_t M>
-    class node_t {
+    class node {
         atomics::rwx_spinlock _lock;
         node_type_t _type;
         uint64_t _key;
 
-        node_t* _left = nullptr;
-        node_t* _right = nullptr;
+        node* _left = nullptr;
+        node* _right = nullptr;
 
     public:
 
@@ -42,7 +42,7 @@ namespace o2tree {
     template <typename T, size_t M = 1024>
     class t {
 
-        using node_t = node_t<T>;
+        using node_t = node<T,M>;
         node_t _root{node_type_t::leaf};
 
     public:

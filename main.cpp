@@ -1,7 +1,7 @@
 #include <iostream>
 #include "o2tree/o2tree.hpp"
 
-yazik::o2tree::t<int> tree{1024};
+yazik::o2tree::t<int,10> tree;
 
 int main() {
     tree.put(0,0);
