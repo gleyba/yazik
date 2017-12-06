@@ -48,11 +48,13 @@ bool rwx_spinlock::try_w_lock() {
 void rwx_spinlock::w_lock() {
     long v = _flag.load();
     if (!try_w_lock()) for (;;) {
+        baton b;
         if (v < 0 || (v % 2) != 0) {
             v = _flag.load();
         } else if (_flag.compare_exchange_weak(v, v + 1)) {
             return;
         }
+        b.incrementAttemptsAndCheck();
     }
 }
 
@@ -83,31 +85,6 @@ void rwx_spinlock::upgrade_w_to_x_lock() {
     for(;;) {
         baton b;
         if (v != 1) {
-            v = _flag.load();
-        } else if (_flag.compare_exchange_weak(v,sMinLong)) {
-            return;
-        }
-        b.incrementAttemptsAndCheck();
-    }
-}
-
-void rwx_spinlock::upgrade_r_to_w_lock() {
-    long v = _flag.load();
-    for(;;) {
-        baton b;
-        if (v < 0 || (v % 2) != 0) {
-            v = _flag.load();
-        } else if (_flag.compare_exchange_weak(v, v - 1)) {
-            return;
-        }
-    }
-}
-
-void rwx_spinlock::upgrade_r_to_x_lock() {
-    long v = _flag.load();
-    for(;;) {
-        baton b;
-        if (v != 2) {
             v = _flag.load();
         } else if (_flag.compare_exchange_weak(v,sMinLong)) {
             return;
@@ -170,22 +147,9 @@ rwx_locker::~rwx_locker() {
     }
 }
 
-void rwx_locker::upgradeToWrite() {
-    if (_lockType == rwx_lock_type::read) {
-        _spinlock->upgrade_r_to_w_lock();
-        _lockType = rwx_lock_type::write;
-    } else {
-        assert(false);
-    }
-}
-
 void rwx_locker::upgradeToExclusive() {
     switch(_lockType)
     {
-        case rwx_lock_type::read:
-            _spinlock->upgrade_r_to_x_lock();
-            _lockType = rwx_lock_type::exclusive;
-            break;
         case rwx_lock_type::write:
             _spinlock->upgrade_w_to_x_lock();
             _lockType = rwx_lock_type::exclusive;

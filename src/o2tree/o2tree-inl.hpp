@@ -3,6 +3,7 @@
 //
 
 #include "o2tree.hpp"
+#include "utils/compute.hpp
 
 namespace yazik {
 namespace o2tree {
@@ -18,13 +19,16 @@ namespace o2tree {
     }
 
     template <typename T, size_t M>
-    atomics::rwx_locker node<T,M>::exclusiveLock() {
-        return {_lock,atomics::rwx_lock_type::exclusive};
+    node node<T,M>::none() {
+
     }
 
     template <typename T, size_t M>
-    t<T,M>::t()
-    {}
+    t<T,M>::t(uint64_t size)
+    {
+
+    }
+
 
 
     template <typename T, size_t M>

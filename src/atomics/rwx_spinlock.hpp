@@ -5,7 +5,7 @@
 #ifndef YAZIK_RWX_SPINLOCK_H
 #define YAZIK_RWX_SPINLOCK_H
 
-
+#include <assert.h>
 #include <atomic>
 #include <cstddef>
 
@@ -25,8 +25,6 @@ public:
     void x_lock();
 
     void upgrade_w_to_x_lock();
-    void upgrade_r_to_w_lock();
-    void upgrade_r_to_x_lock();
 
     void r_unlock();
     void w_unlock();
@@ -53,7 +51,6 @@ public:
     rwx_locker(const rwx_locker&) = delete;
     rwx_locker operator= (const rwx_locker&) = delete;
 
-    void upgradeToWrite();
     void upgradeToExclusive();
     ~rwx_locker();
 };
