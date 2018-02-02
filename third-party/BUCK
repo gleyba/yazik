@@ -1,0 +1,133 @@
+
+platformFlags = [
+    ('windows.*',['-D_WIN32','-DBOOST_EXECUTION_CONTEXT=1','-DBOOST_USE_WINFIB']),
+    ('linux.*',['-DHAVE_PTHREAD','-ldl','-DBOOST_EXECUTION_CONTEXT=1','-DBOOST_USE_UCONTEXT']),
+    ('macosx.*',['-DHAVE_PTHREAD','-DBOOST_EXECUTION_CONTEXT=1','-DBOOST_USE_UCONTEXT']),
+    ('freebsd.*',['-DHAVE_PTHREAD','-DBOOST_EXECUTION_CONTEXT=1','-DBOOST_USE_UCONTEXT']),
+    ('android.*',['-DHAVE_PTHREAD','-frtti','-DBOOST_EXECUTION_CONTEXT=1','-DBOOST_USE_UCONTEXT']),
+    ('iphone.*',['-DHAVE_PTHREAD','-DBOOST_NO_CXX11_THREAD_LOCAL','-DBOOST_EXECUTION_CONTEXT=2','-DBOOST_USE_UCONTEXT']),
+]
+
+boostDir = 'boost_1_66_0'
+
+######################## BOOST-COMMON ########################
+
+boostCommonDir = boostDir + "/boost"
+
+cxx_library(
+    name = 'boost-common',
+    exported_headers = subdir_glob([
+        ( boostCommonDir, '*.h'),
+        ( boostCommonDir, '*.hpp'),
+        ( boostCommonDir, 'predef/**/*.h'),
+        ( boostCommonDir, 'detail/**/*.hpp'),
+        ( boostCommonDir, 'config/**/*.hpp'),
+        ( boostCommonDir, 'pool/**/*.hpp'),
+        ( boostCommonDir, 'integer/**/*.hpp'),
+        ( boostCommonDir, 'type_traits/**/*.hpp'),
+        ( boostCommonDir, 'smart_ptr/**/*.hpp'),
+    ]),
+    platform_preprocessor_flags = platformFlags,
+    visibility = ['PUBLIC',],
+    header_namespace = 'boost'
+)
+
+######################## BOOST-CONTEXT ########################
+
+boostContextSrcDir = boostDir + '/libs/context/src'
+boostContextIncludeDir = boostDir + '/boost/context'
+
+bostContextPosixHeaders = subdir_glob([
+    ( boostContextIncludeDir, 'posix/*.hpp'),
+])
+
+bostContextPosixSrcs = glob([
+    boostContextSrcDir + '/posix/*.cpp',
+    boostContextSrcDir + '/continuation.cpp',
+    boostContextSrcDir + '/execution_context.cpp',
+])
+
+bostContextIosSrcs = glob([
+    boostContextSrcDir + '/posix/*.cpp',
+])
+
+bostContextWindowsHeaders = subdir_glob([
+    ( boostContextIncludeDir, 'windows/*.hpp'),
+])
+
+bostContextWindowsSrcs = glob([
+    boostContextSrcDir + '/windows/*.cpp',
+])
+
+cxx_library(
+    name = 'boost-context',
+    exported_headers = subdir_glob([
+        ( boostContextIncludeDir, 'detail/*.hpp'),
+        ( boostContextIncludeDir, '*.hpp'),
+    ]),
+    exported_platform_headers = [
+        ('^macosx.*', bostContextPosixHeaders ),
+        ('^linux.*', bostContextPosixHeaders ),
+        ('^android.*', bostContextPosixHeaders ),
+        ('^iphone.*', bostContextPosixHeaders ),
+        ('^windows.*', bostContextWindowsHeaders ),
+    ],
+    platform_srcs = [
+        ('^macosx-x86_64', [
+            boostContextSrcDir + '/asm/jump_x86_64_sysv_macho_gas.S',
+            boostContextSrcDir + '/asm/make_x86_64_sysv_macho_gas.S',
+            boostContextSrcDir + '/asm/ontop_x86_64_sysv_macho_gas.S',
+        ]),
+        ('^macosx.*', bostContextPosixSrcs ),
+        ('^linux-x86_64', [
+            boostContextSrcDir + '/asm/jump_x86_64_sysv_elf_gas.S',
+            boostContextSrcDir + '/asm/make_x86_64_sysv_elf_gas.S',
+            boostContextSrcDir + '/asm/ontop_x86_64_sysv_elf_gas.S',
+        ]),
+        ('^linux.*', bostContextPosixSrcs ),
+        ('^android-x86', [
+            boostContextSrcDir + '/asm/jump_i386_sysv_elf_gas.S',
+            boostContextSrcDir + '/asm/make_i386_sysv_elf_gas.S',
+            boostContextSrcDir + '/asm/ontop_i386_sysv_elf_gas.S',
+        ]),
+        ('^android-armv7', [
+            boostContextSrcDir + '/asm/jump_arm_aapcs_elf_gas.S',
+            boostContextSrcDir + '/asm/make_arm_aapcs_elf_gas.S',
+            boostContextSrcDir + '/asm/ontop_arm_aapcs_elf_gas.S',
+        ]),
+        ('^android.*', bostContextPosixSrcs ),
+        ('^iphoneos-arm64', [
+            boostContextSrcDir + '/asm/jump_arm64_aapcs_macho_gas.S',
+            boostContextSrcDir + '/asm/make_arm64_aapcs_macho_gas.S',
+            boostContextSrcDir + '/asm/ontop_arm64_aapcs_macho_gas.S',
+        ]),
+        ('^iphoneos-armv7', [
+            boostContextSrcDir + '/asm/jump_arm_aapcs_macho_gas.S',
+            boostContextSrcDir + '/asm/make_arm_aapcs_macho_gas.S',
+            boostContextSrcDir + '/asm/ontop_arm_aapcs_macho_gas.S',
+        ]),
+        ('^iphonesimulator-x86_64', [
+            boostContextSrcDir + '/asm/jump_x86_64_sysv_macho_gas.S',
+            boostContextSrcDir + '/asm/make_x86_64_sysv_macho_gas.S',
+            boostContextSrcDir + '/asm/ontop_x86_64_sysv_macho_gas.S',
+        ]),
+        ('^iphonesimulator-i386', [
+            boostContextSrcDir + '/asm/jump_i386_sysv_macho_gas.S',
+            boostContextSrcDir + '/asm/make_i386_sysv_macho_gas.S',
+            boostContextSrcDir + '/asm/ontop_i386_sysv_macho_gas.S',
+        ]),
+        ('^iphone.*', bostContextIosSrcs ),
+        ('^windows-x86_64', [
+            boostContextSrcDir + '/asm/jump_x86_64_ms_pe_gas.asm',
+            boostContextSrcDir + '/asm/make_x86_64_ms_pe_gas.asm',
+            boostContextSrcDir + '/asm/ontop_x86_64_ms_pe_gas.asm',
+        ]),
+        ('^windows.*', bostContextWindowsSrcs ),
+    ],
+    platform_preprocessor_flags = platformFlags,
+    visibility = ['PUBLIC',],
+    header_namespace = 'boost/context',
+    deps = [
+        ':boost-common',
+    ]
+)

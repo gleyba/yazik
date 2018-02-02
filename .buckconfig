@@ -1,0 +1,22 @@
+
+[alias]
+    context = //third-party:boost-context
+
+[cxx]
+    cflags = -g -std=c11
+    cxxflags = -g -std=c++14
+    combined_preprocess_and_compile = true
+
+[android]
+    sdk_path = ~/Library/Android/sdk/
+
+[apple]
+    iphonesimulator_target_sdk_version = 8.0
+    iphoneos_target_sdk_version = 8.0
+    macosx_target_sdk_version = 10.9
+
+[ndk]
+    compiler = clang
+    app_platform = android-21
+    cxx_runtime = libcxx
+    ndk_path = ~/Library/Android/sdk/ndk_bundle
