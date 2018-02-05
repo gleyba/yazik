@@ -1,9 +1,9 @@
 cxx_binary(
-  name = 'test',
-  srcs = glob([
-    'test.cpp',
-  ]),
-  deps = [
-    '//third-party:boost-context',
-  ],
+    name = 'test',
+    srcs = glob([
+        'test.cpp',
+    ]),
+    deps = [
+        '//yazik:yazik',
+    ],
 )

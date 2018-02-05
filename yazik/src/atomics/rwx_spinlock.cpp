@@ -1,7 +1,3 @@
-//
-// Created by Gleb Kolobkov on 04.12.17.
-//
-
 #include "rwx_spinlock.hpp"
 
 #include <limits>

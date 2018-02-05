@@ -1,9 +1,7 @@
-//
-// Created by Gleb Kolobkov on 05.12.17.
-//
+#pragma once
 
 #include "o2tree.hpp"
-#include "utils/compute.hpp
+#include "utils/compute.hpp"
 
 namespace yazik {
 namespace o2tree {
@@ -45,7 +43,6 @@ namespace o2tree {
 
             }
         }
-
 
         return true;
     }

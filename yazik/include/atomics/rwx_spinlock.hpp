@@ -1,9 +1,4 @@
-//
-// Created by Gleb Kolobkov on 04.12.17.
-//
-
-#ifndef YAZIK_RWX_SPINLOCK_H
-#define YAZIK_RWX_SPINLOCK_H
+#pragma once
 
 #include <assert.h>
 #include <atomic>
@@ -57,5 +52,3 @@ public:
 
 } //end of atomics namespace
 } //end of yazik namespace
-
-#endif //YAZIK_RWX_SPINLOCK_H

@@ -1,9 +1,4 @@
-//
-// Created by Gleb Kolobkov on 05.12.17.
-//
-
-#ifndef YAZIK_BATON_HPP
-#define YAZIK_BATON_HPP
+#pragma once
 
 #include <thread>
 #include <chrono>
@@ -53,5 +48,3 @@ public:
 
 } //end of atomics namespace
 } //end of yazik namespace
-
-#endif //YAZIK_BATON_HPP

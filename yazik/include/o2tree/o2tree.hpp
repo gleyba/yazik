@@ -1,9 +1,4 @@
-//
-// Created by Gleb Kolobkov on 05.12.17.
-//
-
-#ifndef YAZIK_O2TREE_HPP
-#define YAZIK_O2TREE_HPP
+#pragma once
 
 #include <deque>
 #include "atomics/rwx_spinlock.hpp"
@@ -71,5 +66,3 @@ namespace o2tree {
 } //end of yazik namespace
 
 #include "o2tree-inl.hpp"
-
-#endif //YAZIK_O2TREE_HPP

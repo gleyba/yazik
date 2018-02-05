@@ -1,11 +1,11 @@
 
 platformFlags = [
-    ('windows.*',['-D_WIN32','-DBOOST_EXECUTION_CONTEXT=1','-DBOOST_USE_WINFIB']),
-    ('linux.*',['-DHAVE_PTHREAD','-ldl','-DBOOST_EXECUTION_CONTEXT=1','-DBOOST_USE_UCONTEXT']),
-    ('macosx.*',['-DHAVE_PTHREAD','-DBOOST_EXECUTION_CONTEXT=1','-DBOOST_USE_UCONTEXT']),
-    ('freebsd.*',['-DHAVE_PTHREAD','-DBOOST_EXECUTION_CONTEXT=1','-DBOOST_USE_UCONTEXT']),
-    ('android.*',['-DHAVE_PTHREAD','-frtti','-DBOOST_EXECUTION_CONTEXT=1','-DBOOST_USE_UCONTEXT']),
-    ('iphone.*',['-DHAVE_PTHREAD','-DBOOST_NO_CXX11_THREAD_LOCAL','-DBOOST_EXECUTION_CONTEXT=2','-DBOOST_USE_UCONTEXT']),
+    ('windows.*',['-D_WIN32','-DBOOST_EXECUTION_CONTEXT=1','-DBOOST_USE_FCONTEXT']),
+    ('linux.*',['-DHAVE_PTHREAD','-ldl']),
+    ('macosx.*',['-DHAVE_PTHREAD']),
+    ('freebsd.*',['-DHAVE_PTHREAD']),
+    ('android.*',['-DHAVE_PTHREAD']),
+    ('iphone.*',['-DHAVE_PTHREAD','-DBOOST_NO_CXX11_THREAD_LOCAL']),
 ]
 
 boostDir = 'boost_1_66_0'
@@ -20,6 +20,7 @@ cxx_library(
         ( boostCommonDir, '*.h'),
         ( boostCommonDir, '*.hpp'),
         ( boostCommonDir, 'predef/**/*.h'),
+        ( boostCommonDir, 'core/**/*.hpp'),
         ( boostCommonDir, 'detail/**/*.hpp'),
         ( boostCommonDir, 'config/**/*.hpp'),
         ( boostCommonDir, 'pool/**/*.hpp'),
@@ -43,7 +44,7 @@ bostContextPosixHeaders = subdir_glob([
 
 bostContextPosixSrcs = glob([
     boostContextSrcDir + '/posix/*.cpp',
-    boostContextSrcDir + '/continuation.cpp',
+    # boostContextSrcDir + '/continuation.cpp',
     boostContextSrcDir + '/execution_context.cpp',
 ])
 
@@ -64,6 +65,7 @@ cxx_library(
     exported_headers = subdir_glob([
         ( boostContextIncludeDir, 'detail/*.hpp'),
         ( boostContextIncludeDir, '*.hpp'),
+        ( boostContextIncludeDir, '*.ipp'),
     ]),
     exported_platform_headers = [
         ('^macosx.*', bostContextPosixHeaders ),
@@ -123,6 +125,10 @@ cxx_library(
             boostContextSrcDir + '/asm/ontop_x86_64_ms_pe_gas.asm',
         ]),
         ('^windows.*', bostContextWindowsSrcs ),
+    ],
+    preprocessor_flags = [
+        '-DBOOST_EXECUTION_CONTEXT=2',
+        '-DBOOST_USE_FCONTEXT'
     ],
     platform_preprocessor_flags = platformFlags,
     visibility = ['PUBLIC',],

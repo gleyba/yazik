@@ -1,9 +1,4 @@
-//
-// Created by Gleb Kolobkov on 06/12/2017.
-//
-
 #include "compute.hpp"
-
 
 namespace yazik {
 namespace compute {

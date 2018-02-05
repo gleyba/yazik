@@ -1,30 +1,39 @@
 #include <iostream>
 #include <array>
 #include <boost/context/all.hpp>
+#include <future>
+
+#define __l_move(x) x = std::move(x)
 
 namespace ctx = boost::context;
 
 int main() {
+    ctx::continuation source=ctx::callcc
+    (
+        [](ctx::continuation && sink)
+        {
+            int a=0;
+            int b=1;
+            for(;;)
+            {
+                sink=sink.resume();
+                auto next=a+b;
+                a=b;
+                b=next;
+            }
+            return std::move(sink);
+        }
+    );
 
-  int n=35;
-  ctx::execution_context<int> source(
-      [n](ctx::execution_context<int> && sink,int) mutable {
-          int a=0;
-          int b=1;
-          while(n-->0){
-              auto result=sink(a);
-              sink=std::move(std::get<0>(result));
-              auto next=a+b;
-              a=b;
-              b=next;
-          }
-          return std::move(sink);
-      });
-  for(int i=0;i<10;++i){
-      auto result=source(i);
-      source=std::move(std::get<0>(result));
-      std::cout<<std::get<1>(result)<<" ";
-  }
+    std::async(
+      std::launch::async,
+      [__l_move(source)] () mutable {
+        for (int j=0;j<10;++j) {
+            if (source)
+                source=source.resume();
+        }
+      }
+    ).get();
 
-  return 0;
+    return 0;
 }
