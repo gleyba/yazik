@@ -4,10 +4,11 @@ srcDir = 'src'
 cxx_library(
     name = 'yazik',
     exported_headers = subdir_glob([
-        ( includeDir, '/**/*.hpp'),
+        ( includeDir, './**/*.hpp'),
+        ( includeDir, './**/*.h'),
     ]),
     srcs = glob([
-        srcDir + "/**/*.cpp"
+        srcDir + "./**/*.cpp"
     ]),
     visibility = ['PUBLIC',],
     header_namespace = 'yazik',

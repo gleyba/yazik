@@ -1,8 +1,8 @@
-#include "rwx_spinlock.hpp"
-
+#include <yazik/atomics/rwx_spinlock.hpp>
+#include <yazik/atomics/baton.hpp>
 #include <limits>
 #include <assert.h>
-#include "baton.hpp"
+
 
 namespace {
 

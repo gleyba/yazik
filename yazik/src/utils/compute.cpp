@@ -1,4 +1,4 @@
-#include "compute.hpp"
+#include <yazik/utils/compute.hpp>
 
 namespace yazik {
 namespace compute {

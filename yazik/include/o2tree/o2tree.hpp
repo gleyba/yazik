@@ -1,7 +1,7 @@
 #pragma once
 
 #include <deque>
-#include "atomics/rwx_spinlock.hpp"
+#include <yazik/atomics/rwx_spinlock.hpp>
 
 
 namespace yazik {

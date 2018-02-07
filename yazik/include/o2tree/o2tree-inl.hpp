@@ -1,7 +1,7 @@
 #pragma once
 
 #include "o2tree.hpp"
-#include "utils/compute.hpp"
+#include <yazik/utils/compute.hpp>
 
 namespace yazik {
 namespace o2tree {
