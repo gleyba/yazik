@@ -5,7 +5,5 @@ cxx_binary(
     ]),
     deps = [
         '//yazik:yazik',
-        '//third-party:boost-context',
-        '//third-party:boost-common',
     ],
 )

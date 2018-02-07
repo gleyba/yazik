@@ -14,5 +14,7 @@ cxx_library(
     header_namespace = 'yazik',
     deps = [
         '//third-party:boost-context',
+        '//third-party:boost-common',
+        '//third-party:ltalloc',
     ],
 )

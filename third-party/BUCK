@@ -137,3 +137,16 @@ cxx_library(
         ':boost-common',
     ]
 )
+
+######################## LTALLOC ########################
+
+cxx_library(
+    name = 'ltalloc',
+    exported_headers = {
+        'ltalloc/ltalloc.h'
+    },
+    srcs = [
+        'ltalloc/ltalloc.cc'
+    ],
+    visibility = ['PUBLIC',],
+)
