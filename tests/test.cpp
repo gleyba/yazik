@@ -1,6 +1,7 @@
 #include <iostream>
 #include <array>
 #include <boost/context/all.hpp>
+#include <yazik/intrusive_ptr.hpp>
 #include <future>
 
 #define __l_move(x) x = std::move(x)

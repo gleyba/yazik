@@ -13,6 +13,7 @@ cxx_library(
     visibility = ['PUBLIC',],
     header_namespace = 'yazik',
     deps = [
+        '//third-party:boost-asio',
         '//third-party:boost-context',
         '//third-party:boost-common',
         '//third-party:ltalloc',

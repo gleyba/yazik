@@ -33,6 +33,55 @@ cxx_library(
     header_namespace = 'boost'
 )
 
+######################## BOOST-ASIO ########################
+
+boostAsioIncludeDir = boostDir + '/boost/asio'
+
+boostAsioWindowsHeaders = subdir_glob([
+    ( boostAsioIncludeDir, 'windows/**/*.hpp'),
+    ( boostAsioIncludeDir, 'windows/**/*.ipp'),
+])
+
+boostAsioPosixHeaders = subdir_glob([
+    ( boostAsioIncludeDir, 'posix/**/*.hpp'),
+    ( boostAsioIncludeDir, 'posix/**/*.ipp'),
+])
+
+cxx_library(
+    name = 'boost-asio',
+    exported_headers = subdir_glob([
+        ( boostAsioIncludeDir, 'detail/**/*.hpp'),
+        ( boostAsioIncludeDir, 'detail/**/*.ipp'),
+        ( boostAsioIncludeDir, 'generic/**/*.hpp'),
+        ( boostAsioIncludeDir, 'generic/**/*.ipp'),
+        ( boostAsioIncludeDir, 'impl/**/*.hpp'),
+        ( boostAsioIncludeDir, 'impl/**/*.ipp'),
+        ( boostAsioIncludeDir, 'ip/**/*.hpp'),
+        ( boostAsioIncludeDir, 'ip/**/*.ipp'),
+        ( boostAsioIncludeDir, 'local/**/*.hpp'),
+        ( boostAsioIncludeDir, 'local/**/*.ipp'),
+        ( boostAsioIncludeDir, 'ssl/**/*.hpp'),
+        ( boostAsioIncludeDir, 'ssl/**/*.ipp'),
+        ( boostAsioIncludeDir, 'ts/**/*.hpp'),
+        ( boostAsioIncludeDir, '*.hpp'),
+    ]),
+    exported_platform_headers = [
+        ('^macosx.*', boostAsioPosixHeaders ),
+        ('^linux.*', boostAsioPosixHeaders ),
+        ('^android.*', boostAsioPosixHeaders ),
+        ('^iphone.*', boostAsioPosixHeaders ),
+        ('^windows.*', boostAsioWindowsHeaders ),
+    ],
+    platform_preprocessor_flags = platformFlags,
+    visibility = ['PUBLIC',],
+    header_namespace = 'boost/asio',
+    deps = [
+        ':boost-common',
+    ]
+)
+
+
+
 ######################## BOOST-CONTEXT ########################
 
 boostContextSrcDir = boostDir + '/libs/context/src'
@@ -142,11 +191,15 @@ cxx_library(
 
 cxx_library(
     name = 'ltalloc',
-    exported_headers = {
-        'ltalloc/ltalloc.h'
-    },
+    exported_headers = subdir_glob([
+        ('ltalloc', 'ltalloc.h')
+    ]),
     srcs = [
         'ltalloc/ltalloc.cc'
     ],
+    preprocessor_flags = [
+        '-DLTALLOC_DISABLE_OPERATOR_NEW_OVERRIDE'
+    ],
+    header_namespace = 'ltalloc',
     visibility = ['PUBLIC',],
 )
