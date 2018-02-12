@@ -1,0 +1,14 @@
+﻿<Properties StartupConfiguration="{5C090060-9E39-41CD-BB92-A385C3584B40}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="yaziktools/Program.fs">
+    <Files>
+      <File FileName="yaziktools/Program.fs" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.yaziktools PreferredExecutionTarget="MonoDevelop.Default" />
+  <MultiItemStartupConfigurations />
+</Properties>

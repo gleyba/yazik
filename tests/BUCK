@@ -7,3 +7,19 @@ cxx_binary(
         '//yazik:yazik',
     ],
 )
+
+
+apple_library(
+    name = 'testapple',
+    deps = [
+        '//yazik:yazik',
+    ],
+    preprocessor_flags = ['-fobjc-arc'],
+    srcs = [
+        'testapple.mm',
+    ],
+    frameworks = [
+        '$SDKROOT/System/Library/Frameworks/UIKit.framework',
+        '$SDKROOT/System/Library/Frameworks/Foundation.framework',
+    ],
+)

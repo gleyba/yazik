@@ -2,3 +2,5 @@ cmake-build-debug
 .idea
 .buckd
 buck-out
+tools/proj/yaziktools/bin
+tools/proj/yaziktools/obj
