@@ -7,6 +7,27 @@
 
   <ItemGroup>
     <Compile Include="Program.fs" />
+    <None Include="buck_cxx_libraries_to_json.py" />
+    <PackageReference Include="System.Dynamic.Runtime" Version="4.3.0" />
   </ItemGroup>
-
+  <ItemGroup>
+    <Folder Include="third-party\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="IronPython">
+      <HintPath>third-party\IronPython.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Dynamic">
+      <HintPath>third-party\Microsoft.Dynamic.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Scripting">
+      <HintPath>third-party\Microsoft.Scripting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.CodeDom">
+      <HintPath>third-party\System.CodeDom.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Encoding.CodePages">
+      <HintPath>third-party\System.Text.Encoding.CodePages.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 </Project>
