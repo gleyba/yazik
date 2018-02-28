@@ -126,7 +126,27 @@ rwx_locker::rwx_locker(rwx_spinlock& spinlock,rwx_lock_type lockType)
     }
 }
 
+rwx_locker::rwx_locker(rwx_locker&& other) {
+    _spinlock = other._spinlock;
+    other._spinlock = nullptr;
+    _lockType = other._lockType;
+    other._lockType = rwx_lock_type::no;
+}
+
 rwx_locker::~rwx_locker() {
+    unlock();
+}
+
+rwx_locker& rwx_locker::operator= (rwx_locker&& other) {
+    unlock();
+    _spinlock = other._spinlock;
+    other._spinlock = nullptr;
+    _lockType = other._lockType;
+    other._lockType = rwx_lock_type::no;
+    return *this;
+}
+
+void rwx_locker::unlock() {
     switch(_lockType)
     {
         case rwx_lock_type::read:
@@ -141,9 +161,10 @@ rwx_locker::~rwx_locker() {
         default:
             break;
     }
+    _lockType = rwx_lock_type::no;
 }
 
-void rwx_locker::upgradeToExclusive() {
+void rwx_locker::upgrade_to_x() {
     switch(_lockType)
     {
         case rwx_lock_type::write:

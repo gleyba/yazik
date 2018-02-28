@@ -43,10 +43,13 @@ public:
 
     rwx_locker();
     rwx_locker(rwx_spinlock& spinlock,rwx_lock_type lockType);
+    rwx_locker(rwx_locker&&);
     rwx_locker(const rwx_locker&) = delete;
-    rwx_locker operator= (const rwx_locker&) = delete;
+    rwx_locker& operator= (rwx_locker&&);
+    rwx_locker& operator= (const rwx_locker&) = delete;
 
-    void upgradeToExclusive();
+    void upgrade_to_x();
+    void unlock();
     ~rwx_locker();
 };
 

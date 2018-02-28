@@ -1,7 +1,7 @@
 ﻿<Properties StartupConfiguration="{5C090060-9E39-41CD-BB92-A385C3584B40}|Default">
   <MonoDevelop.Ide.Workbench ActiveDocument="yaziktools/Program.fs">
     <Files>
-      <File FileName="yaziktools/Program.fs" Line="46" Column="30" />
+      <File FileName="yaziktools/Program.fs" Line="53" Column="1" />
       <File FileName="yaziktools/buck_cxx_libraries_to_json.py" Line="3" Column="11" />
     </Files>
   </MonoDevelop.Ide.Workbench>

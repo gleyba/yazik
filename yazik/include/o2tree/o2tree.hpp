@@ -15,43 +15,16 @@ namespace o2tree {
     };
 
     template <typename T, size_t M>
-    class node {
-        atomics::rwx_spinlock _lock;
-        node_type_t _type;
-        uint64_t _key;
+    class node;
 
-        node* _left = nullptr;
-        node* _right = nullptr;
-
-    public:
-
-        inline bool isLeaf() { return _type == node_type_t::leaf; }
-        inline bool isGreater(uint64_t key) {
-            assert(!isLeaf());
-            return key < _key;
-        }
-
-        static node none();
-
-        atomics::rwx_locker readLock();
-        atomics::rwx_locker writeLock();
-    };
-
-    template <typename T, size_t M>
-    class node_bank {
-        using node_t = node<T,M>;
-        std::deque<node_t> _nodes;
-
-    public:
-
-    };
-
-    template <typename T, size_t M = 96>
+    template <typename T, size_t M = 24>
     class t {
 
         using node_t = node<T,M>;
-        using node_bank_t = node_bank<T,M>;
-        node_t _root{node_type_t::leaf};
+        node_t* _root;
+
+        node_t* new_leaf_node();
+        void split_insert(uint64_t key,T&& val, node_t* node);
 
     public:
 
